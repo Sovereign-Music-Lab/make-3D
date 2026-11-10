@@ -19,3 +19,5 @@
 | 재질 컴파일 `PreSkinnedPosition … not available in the Pixel shader` | 정점 셰이더 전용 노드 | `VertexInterpolator`를 거쳐 사용 |
 | 재질 연결 시 입력 이름 오류 | 입력이 하나뿐인 노드는 이름이 `None`으로 보고됨 | 빈 이름/`None`으로 연결(`ue_sequin_material.py` 처리) |
 | 비치는 소매 가장자리 줄무늬 | 디더 투명 + 정지 캡처 | MRQ Temporal 샘플로 렌더하면 대부분 해결 |
+| 언리얼을 다시 열었더니 캐릭터가 회색(텍스처 없음) | import가 만든 재질·텍스처를 저장하지 않고 에디터가 닫힘 | `ue_import_character.py`가 폴더 안 에셋을 모두 저장(수정됨). 이미 잃었다면 다시 import |
+| 작업 중 에디터가 `GracefulTerminationHandler`로 종료 | 정상 종료 신호(직접 종료 또는 메모리 부족 시 macOS가 종료) | AssetFurnace 생성처럼 무거운 작업과 동시에 돌리지 않기, 자주 저장 |

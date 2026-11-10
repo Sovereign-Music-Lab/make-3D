@@ -55,7 +55,11 @@ def main():
                   'rotation': {'pitch': 0, 'yaw': a.yaw, 'roll': 0},
                   'scale': {'x': scale, 'y': scale, 'z': scale}},
         'parent': None, 'snap_to_ground': False})
-    saved = [level, mesh_path]
+    # Save EVERYTHING the import created (materials and textures too). Saving only the mesh
+    # leaves the auto-created materials/textures in memory; if the editor closes they are
+    # lost and the character comes back grey.
+    saved = [level] + list(call(T.ASSET, 'find_assets', {
+        'folder_path': a.folder, 'name': '', 'asset_type': None, 'recursive': True, 'tags': None}) or [])
     anim_path = f'{mesh_path}_Anim'
     if not a.no_anim and call(T.ASSET, 'exists', {'path': anim_path}):
         comp = {'refPath': actor['refPath'] + '.SkeletalMeshComponent0'}
@@ -63,7 +67,6 @@ def main():
             'animToPlay': ref(anim_path), 'bSavedLooping': True, 'bSavedPlaying': True,
             'savedPosition': 0, 'savedPlayRate': 1}})
         print('animation', get_props(comp, ['AnimationMode']))
-        saved += [anim_path, f'{mesh_path}_Skeleton']
     print('saved', call(T.ASSET, 'save_assets', {'asset_paths': saved}))
     print(json.dumps({'actor': actor, 'level': level, 'scale': scale}, indent=2))
 
