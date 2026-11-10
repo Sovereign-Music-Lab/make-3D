@@ -1,0 +1,15 @@
+make-3D
+Copyright 2026 Sovereign Music Lab
+
+This product includes software developed by Sovereign Music Lab and contributors,
+licensed under the Apache License, Version 2.0 (see LICENSE).
+
+This repository contains only scripts and documentation. It does NOT include or
+redistribute any third-party software, model weights or assets. Tools it drives are
+installed separately and keep their own licences, for example:
+  - Unreal Engine (Epic Games EULA)
+  - Blender (GPL)
+  - Adobe Substance 3D Painter (Adobe terms)
+  - AssetFurnace / image-to-3dlab and the model weights it downloads
+    (e.g. Pixal3D: MIT + DINOv3 License; FLUX.2 klein 4B: Apache-2.0)
+Check each licence before commercial use.

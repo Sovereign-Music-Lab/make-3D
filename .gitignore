@@ -1,0 +1,18 @@
+# generated / heavy files never go in git
+*.glb
+*.fbx
+*.fbm/
+*.blend
+*.blend1
+*.spp
+*.uasset
+*.umap
+*.gguf
+*.safetensors
+output/
+shots/
+renders/
+__pycache__/
+*.pyc
+.DS_Store
+.env
