@@ -2,7 +2,8 @@
 and loop its animation. Uses only the editor's MCP server (no Unreal Python needed).
 
     python3 ue_import_character.py --fbx /abs/char.fbx --folder /Game/Characters/Hero \
-        --name SK_Hero --height-cm 170 --at 0 0 --floor-z 0 [--level /Game/Maps/MyLevel] [--no-anim]
+        --name SK_Hero --height-cm 170 --at 0 0 --floor-z 0 [--level /Game/Maps/MyLevel] [--no-anim] \
+        [--materials-from /Game/Characters/Hero_v1]
 
 * Creates SkeletalMesh, Skeleton, AnimSequence, materials and textures in --folder.
 * Spawns an actor in the CURRENT level (or loads --level first) and saves the level.
@@ -28,6 +29,8 @@ def main():
     p.add_argument('--yaw', type=float, default=0.0)
     p.add_argument('--level', help='load this level first (must be saved)')
     p.add_argument('--no-anim', action='store_true')
+    p.add_argument('--materials-from', help='reuse materials from this content folder, matched by slot name; '
+                   'skips importing materials/textures (a heavy import can freeze the editor for minutes)')
     a = p.parse_args()
 
     mesh_path = f'{a.folder}/{a.name}'
@@ -40,8 +43,16 @@ def main():
     call(T.ASSET, 'create_folder', {'path': a.folder})
     mesh = call(T.SKELETAL_MESH, 'import_file', {
         'folder_path': a.folder, 'asset_name': a.name, 'source_file': os.path.abspath(a.fbx),
-        'skeleton': None, 'import_materials': True, 'import_textures': True,
+        'skeleton': None, 'import_materials': not a.materials_from, 'import_textures': not a.materials_from,
         'import_animations': not a.no_anim, 'create_physics_asset': False})[0]
+    if a.materials_from:
+        for slot in call(T.SKELETAL_MESH, 'get_material_slots', {'mesh': mesh}):
+            src = f'{a.materials_from}/{slot}'
+            if call(T.ASSET, 'exists', {'path': src}):
+                call(T.SKELETAL_MESH, 'set_material', {'mesh': mesh, 'slot_name': slot, 'material': ref(src)})
+                print('slot', slot, '<-', src)
+            else:
+                print('slot', slot, 'no material in', a.materials_from)
     b = call(T.SKELETAL_MESH, 'get_bounds', {'mesh': mesh})
     half_h = b['boxExtent']['z']
     bottom = b['origin']['z'] - half_h

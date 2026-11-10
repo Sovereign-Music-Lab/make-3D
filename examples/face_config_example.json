@@ -1,0 +1,10 @@
+{
+  "_comment": "Model units (metres, glTF import in Blender). Read the positions off an orthographic front render: python3 scripts/... render_front_ortho.py prints the pixel->model mapping. hair_min_z / hem_z / torso_half_width / sleeve_min_z are optional tuning knobs.",
+  "face_zone": [-0.030, 0.038, 0.310, 0.381],
+  "eyes": [[-0.0169, 0.3613, 0.0075, 0.0041], [0.0127, 0.3647, 0.0075, 0.0041]],
+  "mouth": [0.0034, 0.3313, 0.0131, 0.0037],
+  "hair_min_z": 0.06,
+  "hem_z": -0.08,
+  "torso_half_width": 0.075,
+  "sleeve_min_z": 0.03
+}

@@ -14,6 +14,8 @@ python3 scripts/ue_import_character.py --fbx ./char.fbx --folder /Game/Character
 - 바닥: 메시 아래쪽이 `--floor-z`에 닿게 z를 계산
 - 애니메이션: `AnimationSingleNode` + 반복 재생으로 설정 후 레벨·에셋 저장
 - 같은 이름이 있으면 **덮어쓰지 않고 중단**
+- `--materials-from <폴더>`: 이전에 가져온 재질·텍스처를 슬롯 이름으로 재사용(가볍고 빠름)
+- import가 만든 재질·텍스처까지 폴더 안 에셋을 전부 저장(안 하면 에디터 종료 시 회색이 됨)
 
 에디터 뷰포트는 첫 포즈로 멈춰 보입니다. 움직임은 Simulate/Play에서 확인합니다:
 

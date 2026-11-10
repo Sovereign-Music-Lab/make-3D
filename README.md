@@ -22,6 +22,7 @@ Claude Code가 MCP로 AssetFurnace · Blender · Unreal Engine 5.8 · Substance 
 | 1. 사진/아이디어 → 3D 캐릭터(리깅·idle) | AssetFurnace | 검증 | [docs/02-character.md](docs/02-character.md) |
 | 2. GLB → FBX (언리얼 단위 문제 해결) | Blender (백그라운드) | 검증 | [docs/03-blender.md](docs/03-blender.md) |
 | 3. 언리얼 import·배치·애니메이션·재질 | Unreal 5.8 MCP | 검증 | [docs/04-unreal.md](docs/04-unreal.md) |
+| 3-2. 옷·부위 분리, 눈 깜빡임·입 움직임 | Blender + Unreal 재질 | 검증 | [docs/04b-parts-and-face.md](docs/04b-parts-and-face.md) |
 | 4. 텍스처 마무리 | Substance 3D Painter | 가이드 | [docs/05-substance-painter.md](docs/05-substance-painter.md) |
 | 5. 완성 점검 | 캡처 스크립트 | 검증(캡처) / 가이드(체크리스트) | [docs/06-finish.md](docs/06-finish.md) |
 | 6. 모션캡처 | Live Link Face, 영상 모캡, IK Retargeter | 가이드 | [docs/07-motion-capture.md](docs/07-motion-capture.md) |
@@ -83,6 +84,10 @@ Claude Code가 MCP로 AssetFurnace · Blender · Unreal Engine 5.8 · Substance 
 | `scripts/ue_import_character.py` | FBX import → 실제 키로 바닥에 배치 → idle 반복 재생 → 저장 |
 | `scripts/ue_capture.py` | 정면·3/4·측면·후면 고정 카메라 캡처(선택: Simulate 중 캡처) |
 | `scripts/ue_sequin_material.py` | 시퀸 + 비치는 소매 드레스 재질 생성(파라미터로 조절) |
+| `scripts/render_front_ortho.py` | 정면 직교 렌더(눈·입 위치 읽기용, 픽셀→모델 좌표 변환) |
+| `scripts/split_parts_face_masks.py` | 한 덩어리 메시를 부위별 재질 슬롯으로 분리 + 눈·입 마스크 텍스처 |
+| `scripts/check_facemask.py` | 얼굴 마스크가 눈·입에 맞는지 확인 렌더 |
+| `scripts/ue_face_anim_material.py` | 자동 눈 깜빡임 + 입 벌림 재질 |
 | `examples/prompts.md` | Claude Code에 그대로 붙여 쓰는 요청 예시 |
 | `CLAUDE.md` | 이 저장소에서 Claude Code가 지킬 작업 규칙 |
 

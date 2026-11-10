@@ -11,6 +11,9 @@ Why this exists (all three broke a real import):
     With FBX_SCALE_ALL alone the mesh arrived 0.9 cm tall and its normals broke.
     Fix: multiply mesh, rest bones and location keys by --scale (100), then export with
     FBX_SCALE_ALL, so mesh and animation both arrive in cm.
+  * Smoothing: glTF splits vertices at UV seams; Unreal then builds normals per UV island
+    and the face looks faceted. Vertices are welded (--no-weld to skip), normals rebuilt
+    smooth, and mesh_smooth_type='FACE' writes smoothing groups.
 The input file is only read.
 """
 import argparse
@@ -26,6 +29,7 @@ def parse():
     p.add_argument('dst')
     p.add_argument('--scale', type=float, default=100.0, help='unit bake factor (m -> cm = 100)')
     p.add_argument('--fps', type=int, default=24)
+    p.add_argument('--no-weld', action='store_true', help='keep vertices split at UV seams')
     return p.parse_args(argv)
 
 
@@ -51,6 +55,21 @@ def main():
             print('drop helper mesh', o.name)
             bpy.data.objects.remove(o, do_unlink=True)
 
+    if not a.no_weld:
+        # glTF splits vertices at every UV seam. AssetFurnace atlases are very fragmented, so
+        # Unreal computes normals per island and every seam shows as a hard patch. Weld (UVs
+        # stay on the loops) and rebuild smooth normals.
+        import bmesh
+        for o in [o for o in bpy.data.objects if o.type == 'MESH']:
+            bm = bmesh.new(); bm.from_mesh(o.data)
+            n0 = len(bm.verts); bmesh.ops.remove_doubles(bm, verts=bm.verts, dist=1e-5)
+            bm.to_mesh(o.data); bm.free()
+            if o.data.has_custom_normals:
+                with bpy.context.temp_override(object=o, active_object=o):
+                    bpy.ops.mesh.customdata_custom_splitnormals_clear()
+            for poly in o.data.polygons:
+                poly.use_smooth = True
+            print('welded', o.name, n0 - len(o.data.vertices))
     if bpy.data.actions:
         s, e = bpy.data.actions[0].frame_range
         sc = bpy.context.scene
@@ -78,7 +97,7 @@ def main():
         add_leaf_bones=False, bake_anim=True, bake_anim_use_all_actions=False,
         bake_anim_use_nla_strips=False, bake_anim_force_startend_keying=True,
         bake_anim_step=1.0, bake_anim_simplify_factor=0.0, path_mode='COPY',
-        embed_textures=True, apply_unit_scale=True, apply_scale_options='FBX_SCALE_ALL',
+        embed_textures=True, mesh_smooth_type='FACE', apply_unit_scale=True, apply_scale_options='FBX_SCALE_ALL',
         armature_nodetype='NULL')
     print('exported', a.dst)
 
