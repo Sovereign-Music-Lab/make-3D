@@ -26,4 +26,7 @@
 | 얼굴 마스크에서 눈만 비어 있음 | PNG 알파=0인 곳의 색 데이터가 저장/로드 시 버려짐 | 알파는 항상 1, 데이터는 RGB에만(스크립트 수정됨) |
 | 눈 흰자가 리본으로 분류됨 | 밝고 무채색이라 리본 규칙에 먼저 걸림 | 얼굴 영역 판정을 먼저(스크립트 수정됨) |
 | 치마 뒤가 머리카락으로 분류됨 | AssetFurnace 텍스처에 머리색이 번져 있음 | `face.json`의 `hair_min_z`를 치마 위쪽 높이로 |
-
+| Groom 물리 켜고 저장하자 에디터 종료 (`AllocateInterpolationResources` assert) | Interchange로 들여온 groom에 보간 데이터가 없음(UE 5.8.4) | `ue_groom_setup.py ... 0`(물리 끔), 물리는 Groom 에디터에서 직접 |
+| `.abc`가 Groom이 아니라 스태틱 메시로 들어옴 / `Unknown extension 'abc'` | AlembicHairImporter 꺼짐 또는 Interchange ABC 플래그 꺼짐 | 플러그인 켜고 재시작, `ue_import_groom.py`가 플래그를 켬 |
+| `ue_python.py`: `no Unreal editor answered` (macOS) | 127.0.0.1 소켓은 멀티캐스트를 못 받음 | `ue_python.py` 최신 버전 사용(루프백 + 유니캐스트), ini에 bRemoteExecution=True |
+| 레벨을 연 뒤 MCP 호출이 끝나지 않음 | 언리얼 MCP 서버가 멈춤 | Python 원격 실행 스크립트(`*_py.py`) 사용, 필요하면 에디터 재시작 |

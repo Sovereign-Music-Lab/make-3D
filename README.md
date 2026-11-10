@@ -23,6 +23,7 @@ Claude Code가 MCP로 AssetFurnace · Blender · Unreal Engine 5.8 · Substance 
 | 2. GLB → FBX (언리얼 단위 문제 해결) | Blender (백그라운드) | 검증 | [docs/03-blender.md](docs/03-blender.md) |
 | 3. 언리얼 import·배치·애니메이션·재질 | Unreal 5.8 MCP | 검증 | [docs/04-unreal.md](docs/04-unreal.md) |
 | 3-2. 옷·부위 분리, 눈 깜빡임·입 움직임 | Blender + Unreal 재질 | 검증 | [docs/04b-parts-and-face.md](docs/04b-parts-and-face.md) |
+| 3-3. 가닥 헤어 (Groom) | Blender + Unreal Python | 검증(정지 화면, 물리 제외) | [docs/04c-strand-hair.md](docs/04c-strand-hair.md) |
 | 4. 텍스처 마무리 | Substance 3D Painter | 가이드 | [docs/05-substance-painter.md](docs/05-substance-painter.md) |
 | 5. 완성 점검 | 캡처 스크립트 | 검증(캡처) / 가이드(체크리스트) | [docs/06-finish.md](docs/06-finish.md) |
 | 6. 모션캡처 | Live Link Face, 영상 모캡, IK Retargeter | 가이드 | [docs/07-motion-capture.md](docs/07-motion-capture.md) |
